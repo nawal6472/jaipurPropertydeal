@@ -9,6 +9,7 @@ import { MoreImgModule } from './more_img/more_img.module';
 import { AuthModule } from './auth/auth.module';
 import { AmenitiesModule } from './amenities/amenities.module';
 import { StatesModule } from './states/states.module';
+import { CitysModule } from './citys/citys.module';
 @Module({
   imports: [
     DbModule,
@@ -21,6 +22,7 @@ import { StatesModule } from './states/states.module';
     AuthModule,
     AmenitiesModule,
     StatesModule,
+    CitysModule,
   ],
 })
 export class AppModule {}
