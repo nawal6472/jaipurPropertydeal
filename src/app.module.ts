@@ -6,6 +6,8 @@ import { PropertyModule } from './property/property.module';
 import { LandmarksModule } from './landmarks/landmarks.module';
 import { PropertyNearByModule } from './property-near-by/property-near-by.module';
 import { MoreImgModule } from './more_img/more_img.module';
+import { AuthModule } from './auth/auth.module';
+import { AmenitiesModule } from './amenities/amenities.module';
 @Module({
   imports: [
     DbModule,
@@ -15,6 +17,8 @@ import { MoreImgModule } from './more_img/more_img.module';
     LandmarksModule,
     PropertyNearByModule,
     MoreImgModule,
+    AuthModule,
+    AmenitiesModule,
   ],
 })
 export class AppModule {}
