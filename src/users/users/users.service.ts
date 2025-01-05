@@ -14,29 +14,21 @@ export class UsersService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
-    try {
-      const userData = new User();
-      const { name, email, password, status } = createUserDto;
-      const hash = await bcrypt.hash(password, 10);
-      userData.name = name?.trim();
-      userData.email = email?.trim();
-      userData.password = hash;
-      userData.status = status;
-      userData.cratedAt = new Date();
-
-      const emailExists = await this.userRepository.findOneBy({ email });
-      if (emailExists) {
-        throw new BadRequestException('Email already exists.');
-      }
-
-      const userSave = await this.userRepository.save(userData);
+    const user = await this.userRepository.findOneBy({
+      email: createUserDto.email,
+    });
+    if (user) {
+      throw new BadRequestException('User already exists.');
+    } else {
+      const user = this.userRepository.create(createUserDto);
+      const userSave = await this.userRepository.save(user);
+      user.password = await bcrypt.hash(user.password, 10);
+      await this.userRepository.save(user);
 
       return {
         message: 'User created successfully.',
         user: userSave,
       };
-    } catch (error) {
-      return error;
     }
   }
 
@@ -49,12 +41,13 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    updateUserDto.name = updateUserDto.name?.trim();
-    updateUserDto.email = updateUserDto.email?.trim();
-    updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
-    updateUserDto.updatedAt = new Date();
-    const updateUser = await this.userRepository.findOneBy({ id });
-    await this.userRepository.update(id, updateUserDto);
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new BadRequestException('User not found.');
+    }
+    const updateUser = this.userRepository.merge(user, updateUserDto);
+    const updateUserSave = await this.userRepository.save(updateUser);
+
     return {
       message: 'User updated successfully.',
       user: updateUser,

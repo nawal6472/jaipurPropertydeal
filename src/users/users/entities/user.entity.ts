@@ -15,7 +15,13 @@ export class User {
   phone: string;
 
   @Column()
-  otp: string;
+  email_otp: string;
+
+  @Column()
+  phone_otp: string;
+
+  @Column()
+  developer_name: string;
 
   @Column()
   company_name: string;
@@ -34,6 +40,15 @@ export class User {
 
   @Column()
   role: string;
+
+  @Column()
+  Director: string;
+
+  @Column()
+  logo: string;
+
+  @Column()
+  visiting_time: string;
 
   @Column()
   status: boolean;
