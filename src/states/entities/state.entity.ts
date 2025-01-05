@@ -1,18 +1,15 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Amenity {
+export class State {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   property_id: number;
 
-  @Column()
-  amenity_name: string;
-
-  @Column()
-  amenity_image: string;
+  @Column({ unique: true })
+  state_name: string;
 
   @Column({ default: true })
   status: boolean;

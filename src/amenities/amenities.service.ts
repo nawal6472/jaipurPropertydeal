@@ -47,7 +47,18 @@ export class AmenitiesService {
     };
   }
 
-  remove(id: number) {
-    return this.amenityRepository.findOne({ where: { id } });
+  async remove(id: number) {
+    const categoryToDelete = this.amenityRepository.findOne({ where: { id } });
+    if (!categoryToDelete) {
+      throw new ConflictException('amenity not found');
+    }
+    const result = await this.amenityRepository.delete(id);
+    if (result.affected === 0) {
+      throw new ConflictException('amenity deletion failed');
+    }
+    return {
+      massage: 'amenity deleted successfully.',
+      category: categoryToDelete,
+    };
   }
 }

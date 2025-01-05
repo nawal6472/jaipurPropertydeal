@@ -8,6 +8,7 @@ import { PropertyNearByModule } from './property-near-by/property-near-by.module
 import { MoreImgModule } from './more_img/more_img.module';
 import { AuthModule } from './auth/auth.module';
 import { AmenitiesModule } from './amenities/amenities.module';
+import { StatesModule } from './states/states.module';
 @Module({
   imports: [
     DbModule,
@@ -19,6 +20,7 @@ import { AmenitiesModule } from './amenities/amenities.module';
     MoreImgModule,
     AuthModule,
     AmenitiesModule,
+    StatesModule,
   ],
 })
 export class AppModule {}
