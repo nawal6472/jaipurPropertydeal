@@ -22,10 +22,7 @@ export class CategoryService {
     }
     const category = this.categoryRepository.create(createCategoryDto);
     const categorySave = await this.categoryRepository.save(category);
-    return {
-      massage: 'Category created successfully.',
-      category: categorySave,
-    };
+    return categorySave
   }
 
   findAll() {
@@ -37,38 +34,13 @@ export class CategoryService {
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const existingCategory = await this.categoryRepository.findOne({
+   return  await this.categoryRepository.findOne({
       where: { cat_name: updateCategoryDto.cat_name },
-    });
+    })
 
-    if (existingCategory) {
-      throw new ConflictException('Category name already exists');
-    }
-    const category = await this.categoryRepository.findOne({ where: { id } });
-
-    if (!category) {
-      throw new ConflictException('Category not found');
-    }
-    Object.assign(category, updateCategoryDto);
-    const categoryUpdate = await this.categoryRepository.save(category);
-    return {
-      massage: 'Category updated successfully.',
-      category: categoryUpdate,
-    };
   }
 
   async remove(id: number) {
-    const categoryToDelete = this.categoryRepository.findOne({ where: { id } });
-    if (!categoryToDelete) {
-      throw new ConflictException('Category not found');
-    }
-    const result = await this.categoryRepository.delete(id);
-    if (result.affected === 0) {
-      throw new ConflictException('Category deletion failed');
-    }
-    return {
-      massage: 'Category deleted successfully.',
-      category: categoryToDelete,
-    };
+    return await this.categoryRepository.delete(id);
   }
 }
