@@ -6,6 +6,22 @@ export class Property {
   id: number;
 
   @Column()
+  category_id: number;
+
+  
+  @Column()
+  landmark_id: number;
+
+  @Column()
+  more_img_id: number;
+
+  @Column()
+  amenities_id: number;
+
+  @Column()
+  property_near_by_id: number; 
+
+  @Column()
   name: string;
 
   @Column()
@@ -64,21 +80,6 @@ export class Property {
 
   @Column()
   pro_video: string;
-
-  @Column()
-  landmark_id: number;
-
-  @Column()
-  category_id: number;
-
-  @Column()
-  more_img_id: number;
-
-  @Column()
-  amenities_id: number;
-
-  @Column()
-  property_near_by_id: number;
 
   @Column({ default: true })
   type_patta: boolean;

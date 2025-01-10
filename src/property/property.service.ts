@@ -67,19 +67,9 @@ export class PropertyService {
   }
 
   async remove(id: number) {
-    const propertyToDelete = this.propertyRepository.findOne({
-      where: { id },
-    });
-    if (!propertyToDelete) {
-      throw new ConflictException('Property not found');
-    }
+    
     const result = await this.propertyRepository.delete(id);
-    if (result.affected === 0) {
-      throw new ConflictException('Property deletion failed');
-    }
-    return {
-      massage: 'Property deleted successfully.',
-      propertyNearBy: propertyToDelete,
-    };
+    return result
+   
   }
 }
