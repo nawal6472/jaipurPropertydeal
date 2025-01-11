@@ -5,5 +5,8 @@ export class UpdatePropertyNearByDto {
   name?: string;
 
   @IsOptional()
+  title?: string;
+
+  @IsOptional()
   status?: boolean;
 }

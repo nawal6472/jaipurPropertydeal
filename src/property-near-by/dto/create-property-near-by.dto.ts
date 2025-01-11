@@ -2,7 +2,8 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePropertyNearByDto {
   @IsNotEmpty()
-  property_id: number;
+  @IsString({ message: 'name must be a text' })
+  title: string;
 
   @IsNotEmpty()
   @IsString({ message: 'name must be a text' })

@@ -6,7 +6,7 @@ export class PropertyNearBy {
   id: number;
 
   @Column()
-  property_id: number;
+  title: string;
 
   @Column()
   name: string;

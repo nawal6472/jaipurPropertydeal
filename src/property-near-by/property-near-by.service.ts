@@ -56,19 +56,6 @@ export class PropertyNearByService {
   }
 
   async remove(id: number) {
-    const propertyNearByToDelete = this.propertyNearByRepository.findOne({
-      where: { id },
-    });
-    if (!propertyNearByToDelete) {
-      throw new ConflictException('PropertyNearBy not found');
-    }
-    const result = await this.propertyNearByRepository.delete(id);
-    if (result.affected === 0) {
-      throw new ConflictException('PropertyNearBy deletion failed');
-    }
-    return {
-      massage: 'PropertyNearBy deleted successfully.',
-      propertyNearBy: propertyNearByToDelete,
-    };
+    return await this.propertyNearByRepository.delete(id);
   }
 }

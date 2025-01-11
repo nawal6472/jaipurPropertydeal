@@ -6,9 +6,6 @@ export class Landmark {
   id: number;
 
   @Column()
-  property_id: number;
-
-  @Column()
   landmark_name: string;
 
   @Column()

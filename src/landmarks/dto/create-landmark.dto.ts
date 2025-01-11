@@ -2,9 +2,6 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateLandmarkDto {
   @IsNotEmpty()
-  property_id: number;
-
-  @IsNotEmpty()
   landmark_name: string;
 
   @IsNotEmpty()

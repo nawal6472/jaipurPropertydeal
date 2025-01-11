@@ -11,13 +11,10 @@ export class LandmarksService {
     @InjectRepository(Landmark)
     private readonly landmarkRepository: Repository<Landmark>,
   ) {}
-  async create(createLandmarkDto: CreateLandmarkDto) {
+  async createtlandmark(createLandmarkDto: CreateLandmarkDto) {
     const landmark = this.landmarkRepository.create(createLandmarkDto);
     const landmarkSave = await this.landmarkRepository.save(landmark);
-    return {
-      massage: 'Landmark created successfully.',
-      landmark: landmarkSave,
-    };
+    return landmarkSave;
   }
 
   findAll() {
@@ -53,17 +50,6 @@ export class LandmarksService {
   }
 
   async remove(id: number) {
-    const landmarkToDelete = this.landmarkRepository.findOne({ where: { id } });
-    if (!landmarkToDelete) {
-      throw new ConflictException('Category not found');
-    }
-    const result = await this.landmarkRepository.delete(id);
-    if (result.affected === 0) {
-      throw new ConflictException('Category deletion failed');
-    }
-    return {
-      massage: 'Category deleted successfully.',
-      category: landmarkToDelete,
-    };
+    return await this.landmarkRepository.delete(id);
   }
 }
