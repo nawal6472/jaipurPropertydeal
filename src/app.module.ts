@@ -7,6 +7,7 @@ import { LandmarksModule } from './landmarks/landmarks.module';
 import { PropertyNearByModule } from './property-near-by/property-near-by.module';
 import { MoreImgModule } from './more_img/more_img.module';
 // import { UploadController } from './upload.controller';
+import { PropertyBulkModule } from './property-bulk/property-bulk.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MoreImgModule } from './more_img/more_img.module';
     LandmarksModule,
     PropertyNearByModule,
     MoreImgModule,
+    PropertyBulkModule,
     // UploadController
   ],
 })

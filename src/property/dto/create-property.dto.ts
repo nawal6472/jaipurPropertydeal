@@ -23,7 +23,10 @@ export class CreatePropertyDto {
   full_address: string;
 
   @IsNotEmpty()
-  price: number;
+  min_price: number;
+
+  @IsNotEmpty()
+  max_price: number;
 
   @IsNotEmpty()
   bhk: string;

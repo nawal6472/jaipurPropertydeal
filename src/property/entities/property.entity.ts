@@ -8,7 +8,6 @@ export class Property {
   @Column()
   category_id: number;
 
-  
   @Column()
   landmark_id: number;
 
@@ -19,7 +18,7 @@ export class Property {
   amenities_id: number;
 
   @Column()
-  property_near_by_id: number; 
+  property_near_by_id: number;
 
   @Column()
   name: string;
@@ -31,7 +30,10 @@ export class Property {
   full_address: string;
 
   @Column()
-  price: number;
+  min_price: number;
+
+  @Column()
+  max_price: number;
 
   @Column()
   bhk: string;
