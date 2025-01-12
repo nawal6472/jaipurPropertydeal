@@ -1,62 +1,68 @@
 import {
   Controller,
-  Get,
   Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
   UseInterceptors,
   UploadedFiles,
+  Body,
+  Res,
 } from '@nestjs/common';
-import { MoreImgService } from './more_img.service';
-import { UpdateMoreImgDto } from './dto/update-more_img.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import * as path from 'path';
+import { diskStorage } from 'multer';
+import { MoreImgService } from './more_img.service';
+import { CreateMoreImgDto } from './dto/create-more_img.dto';
+import { Response } from 'express';
+import { HttpStatus } from '@nestjs/common';
 
 @Controller('more-img')
 export class MoreImgController {
   constructor(private readonly moreImgService: MoreImgService) {}
 
-  @Post('image')
+  @Post('upload-images')
   @UseInterceptors(
     FilesInterceptor('files', 10, {
-      storage: new MoreImgService().getStorageOptions(),
-      fileFilter: (req, file, callback) => {
-        if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
-          return callback(new Error('Only image files are allowed!'), false);
-        }
-        callback(null, true);
+      storage: diskStorage({
+        destination: './uploads/', // Directory for uploaded files
+        filename: (req, file, callback) => {
+          const fileExtension = path.extname(file.originalname);
+          const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${fileExtension}`;
+          callback(null, fileName);
+        },
+      }),
+      limits: {
+        fileSize: 10 * 1024 * 1024, // File size limit of 10 MB
       },
     }),
   )
-  async uploadImages(@UploadedFiles() files: Express.Multer.File[]) {
-    return {
-      message: 'Files uploaded successfully',
-      files: files.map((file) => ({
-        originalname: file.originalname,
-        filename: file.filename,
-        path: file.path,
-      })),
-    };
-  }
+  async uploadPropertyImages(
+    @UploadedFiles() files: Express.Multer.File[], // Handle multiple files
+    @Body() createMoreImgDto: CreateMoreImgDto, // Use DTO for validation
+    @Res() res: Response, // Response handling with @Res()
+  ) {
+    // console.log(files); // Log the files to debug if they're being received
+    try {
+      const imageName = files.map((file) => file.filename);
 
-  @Get()
-  findAll() {
-    return this.moreImgService.findAll();
-  }
+      // Save the property with image names in the database
+      const property = await this.moreImgService.createMoreImg({
+        // name: createMoreImgDto.name,
+        imageName,
+      });
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.moreImgService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMoreImgDto: UpdateMoreImgDto) {
-    return this.moreImgService.update(+id, updateMoreImgDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.moreImgService.remove(+id);
+      // Success response
+      return res.status(HttpStatus.OK).json({
+        status: true,
+        message: 'Property and images uploaded successfully',
+        data: property,
+      });
+    } catch (error) {
+      // Error handling
+      console.error(error); // Log the error for debugging
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        status: false,
+        message: 'Something went wrong',
+        error: error.response || error.message,
+      });
+    }
   }
 }

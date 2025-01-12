@@ -6,13 +6,10 @@ export class MoreImg {
   id: number;
 
   @Column()
-  property_id: number;
+  name: string;
 
-  @Column()
-  img_name: string;
-
-  @Column()
-  image: string;
+  @Column('simple-array', { nullable: true })
+  imageName: string[];
 
   @Column({ default: true })
   status: boolean;

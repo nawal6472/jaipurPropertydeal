@@ -20,7 +20,7 @@ async function bootstrap() {
     .addTag('API')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('V1/Api', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3000);
 }
